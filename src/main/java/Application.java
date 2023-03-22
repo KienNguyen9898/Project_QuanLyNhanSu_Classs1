@@ -1,12 +1,11 @@
+import dao.DepartmentDAO;
 import dao.EmployeeDAO;
-import model.DepartmentDAO;
+import model.Departments;
 import model.Employees;
 import service.AuthenService;
 
 import java.util.List;
 import java.util.Scanner;
-
-import static java.lang.System.in;
 
 public class Application {
 
@@ -100,17 +99,53 @@ public class Application {
         e.setDepartment_id(in.nextLine());
         System.out.println("\tNhập id quản lý: ");
         e.setManager_id(in.nextLine());
-        in.close();
         employeeDAO.update(e, employee_id);
 
     }
-        private static void option4(Scanner in){
-            System.out.print("\tNhập id nhân viên muốn xóa: ");
-            String employee_id =in.nextLine();
-            employeeDAO.delete(employee_id);
+    private static void option4(Scanner in){
+        System.out.print("\tNhập id nhân viên muốn xóa: ");
+        String employee_id =in.nextLine();
+        employeeDAO.delete(employee_id);
+    }
 
-
+    private static void option5() {
+        List<Departments> departmentsList = departmentDAO.getAll();
+        System.out.printf("%-25s %-25s %-25s %-25s","STT", "Mã phòng ban", "Tên phòng ban", "Mảng phụ trách");
+        System.out.println();
+        for (int i = 0; i < departmentsList.size(); i++) {
+            Departments d = departmentsList.get(i);
+            System.out.printf("%-25s %-25s %-25s %-25s \n", (i+1), d.getDepartment_id(), d.getDepartment_name(), d.getDepartment_dese());
         }
+    }
+
+    private static void option6(Scanner in){
+        Departments d = new Departments();
+        System.out.print("\tNhập id phòng ban: ");
+        d.setDepartment_id(in.nextLine());
+        System.out.print("\tNhập tên phòng ban: ");
+        d.setDepartment_name(in.nextLine());
+        System.out.print("\tNhập thông tin phòng ban: ");
+        d.setDepartment_dese(in.nextLine());
+        departmentDAO.insert(d);
+    }
+
+    private static void option7(Scanner in){
+        Departments d = new Departments();
+        System.out.print("Nhập id phòng ban cần cập nhật: ");
+        String department_id = in.nextLine();
+        System.out.print("\tNhập tên phòng ban: ");
+        d.setDepartment_name(in.nextLine());
+        System.out.print("\tNhập thông tin phòng ban: ");
+        d.setDepartment_dese(in.nextLine());
+        departmentDAO.update(d, department_id);
+    }
+
+    private static void option8(Scanner in){
+        System.out.print("\tNhập id phòng ban muốn xóa: ");
+        String department_id = in.nextLine();
+        departmentDAO.delete(department_id);
+    }
+
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -174,14 +209,16 @@ public class Application {
                     option4(in);
                     break;
                 case 5:
+                    option5();
                     break;
                 case 6:
+                    option6(in);
                     break;
                 case 7:
-
+                    option7(in);
                     break;
                 case 8:
-
+                    option8(in);
                     break;
                 case 9:
 
