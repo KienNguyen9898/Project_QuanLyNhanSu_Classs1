@@ -1,6 +1,12 @@
+import dao.EmployeeDAO;
+import model.DepartmentDAO;
+import model.Employees;
 import service.AuthenService;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.System.in;
 
 public class Application {
 
@@ -8,24 +14,103 @@ public class Application {
 
     // Khai bao service
     private static AuthenService authenService = new AuthenService();
+    private static EmployeeDAO employeeDAO = new EmployeeDAO();
+    private static DepartmentDAO departmentDAO = new DepartmentDAO();
 
-    private static void showMenu(){
+    private static void showMenu() {
         System.out.println("---QUAN LY NHAN SU---");
-        System.out.println("1. Thêm mới nhân viên");
-        System.out.println("2. Cập nhật nhân viên");
-        System.out.println("3. Xóa nhân viên");
-        System.out.println("4. Thêm mới phòng ban");
-        System.out.println("5. Cập nhật phòng ban");
-        System.out.println("6. Xóa phòng ban");
-        System.out.println("7. Tìm kiếm nhân viên");
-        System.out.println("8. Thêm nhân viên vào phòng ban");
-        System.out.println("9. Xóa nhân viên khỏi phòng ban");
-        System.out.println("10. Chuyển phòng ban cho nhân viên");
-        System.out.println("11. Tính thuế thu nhập cá nhân cho nhân viên");
-        System.out.println("12. Thoát");
+        System.out.println("1. Xem danh sách nhân viên");
+        System.out.println("2. Thêm mới nhân viên");
+        System.out.println("3. Cập nhật nhân viên");
+        System.out.println("4. Xóa nhân viên");
+        System.out.println("5. Xem danh sách phòng ban");
+        System.out.println("6. Thêm mới phòng ban");
+        System.out.println("7. Cập nhật phòng ban");
+        System.out.println("8. Xóa phòng ban");
+        System.out.println("9. Tìm kiếm nhân viên");
+        System.out.println("10. Thêm nhân viên vào phòng ban");
+        System.out.println("11. Xóa nhân viên khỏi phòng ban");
+        System.out.println("12. Chuyển phòng ban cho nhân viên");
+        System.out.println("13. Tính thuế thu nhập cá nhân cho nhân viên");
+        System.out.println("0. Thoát");
+    }
 
+        private static void option1() {
+            List<Employees> employeesList = employeeDAO.getAll();
+            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban");
+            System.out.println();
+            for (int i = 0; i < employeesList.size(); i++) {
+                Employees e = employeesList.get(i);
+                System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n", e.getEmployee_id(), e.getFullname(),
+                        e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id());
+            }
+        }
+
+        private static void option2(Scanner in){
+            Employees e = new Employees();
+            System.out.print("\tNhập id nhân viên: ");
+            e.setEmployee_id(in.nextLine());
+            System.out.print("\tNhập họ tên: ");
+            e.setFullname(in.nextLine());
+            System.out.print("\tNhập giới tính: ");
+            e.setGender(Long.parseLong(in.nextLine()));
+            System.out.print("\tNhập ngày sinh: ");
+            e.setDate(in.nextLine());
+            System.out.println("\tNhập ngày bắt đầu làm việc: ");
+            e.setHire_date(in.nextLine());
+            System.out.println("\tNhập ngày email: ");
+            e.setEmail(in.nextLine());
+            System.out.println("\tNhập số điện thoại: ");
+            e.setPhone(in.nextLine());
+            System.out.println("\tNhập địa chỉ: ");
+            e.setAddress(in.nextLine());
+            System.out.println("\tNhập vị trí công việc: ");
+            e.setPosition(in.nextLine());
+            System.out.println("\tNhập lương: ");
+            e.setSalary(Integer.parseInt(in.nextLine()));
+            System.out.println("\tNhập id phòng ban: ");
+            e.setDepartment_id(in.nextLine());
+            System.out.println("\tNhập id quản lý: ");
+            e.setManager_id(in.nextLine());
+            employeeDAO.insert(e);
+        }
+    private static void option3(Scanner in){
+        Employees e = new Employees();
+        System.out.print("Nhập id nhân viên cần cập nhật: ");
+        String employee_id = in.nextLine();
+        System.out.print("\tNhập họ tên: ");
+        e.setFullname(in.nextLine());
+        System.out.print("\tNhập giới tính: ");
+        e.setGender(Long.parseLong(in.nextLine()));
+        System.out.print("\tNhập ngày sinh: ");
+        e.setDate(in.nextLine());
+        System.out.println("\tNhập ngày bắt đầu làm việc: ");
+        e.setHire_date(in.nextLine());
+        System.out.println("\tNhập ngày email: ");
+        e.setEmail(in.nextLine());
+        System.out.println("\tNhập số điện thoại: ");
+        e.setPhone(in.nextLine());
+        System.out.println("\tNhập địa chỉ: ");
+        e.setAddress(in.nextLine());
+        System.out.println("\tNhập vị trí công việc: ");
+        e.setPosition(in.nextLine());
+        System.out.println("\tNhập lương: ");
+        e.setSalary(Integer.parseInt(in.nextLine()));
+        System.out.println("\tNhập id phòng ban: ");
+        e.setDepartment_id(in.nextLine());
+        System.out.println("\tNhập id quản lý: ");
+        e.setManager_id(in.nextLine());
+        in.close();
+        employeeDAO.update(e, employee_id);
 
     }
+        private static void option4(Scanner in){
+            System.out.print("\tNhập id nhân viên muốn xóa: ");
+            String employee_id =in.nextLine();
+            employeeDAO.delete(employee_id);
+
+
+        }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -58,6 +143,67 @@ public class Application {
 
         // Dang nhap thanh cong
         showMenu();
+        int option = -1;
+
+        do {
+            showMenu();
+            System.out.print("Nhập lựa chọn: ");
+            try {
+                option = Integer.parseInt(in.nextLine());
+
+            } catch (Exception exception) {
+                System.out.println("Nhap sai dinh dang");
+                continue;
+
+            }
+            if (option < 1 || option > 13) {
+                System.out.println("Vui lòng nhập lại!");
+                continue;
+            }
+            switch (option) {
+                case 1:
+                    option1();
+                    break;
+                case 2:
+                    option2(in);
+                    break;
+                case 3:
+                    option3(in);
+                    break;
+                case 4:
+                    option4(in);
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
+                case 9:
+
+                    break;
+                case 10:
+
+                    break;
+                case 11:
+
+                    break;
+                case 12:
+
+                    break;
+                case 13:
+
+                    break;
+            }
+
+        }
+        while (option != 0);
         in.close();
+
     }
+
 }
