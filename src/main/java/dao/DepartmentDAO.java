@@ -110,7 +110,7 @@ public class DepartmentDAO {
     public void delete(String department_id) {
         Departments departments = getById(department_id);
         if (departments == null) {
-            throw new RuntimeException("Nhân viên không tồn tại!");
+            throw new RuntimeException("Phòng ban không tồn tại!");
         }
 
         final String sql = "DELETE FROM `departments` WHERE  `department_id` = '" + department_id +"'";

@@ -36,11 +36,11 @@ public class Application {
 
         private static void option1() {
             List<Employees> employeesList = employeeDAO.getAll();
-            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban");
+            System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s","STT", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban");
             System.out.println();
             for (int i = 0; i < employeesList.size(); i++) {
                 Employees e = employeesList.get(i);
-                System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n", e.getEmployee_id(), e.getFullname(),
+                System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s\n",(i+1), e.getEmployee_id(), e.getFullname(),
                         e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id());
             }
         }
@@ -110,7 +110,7 @@ public class Application {
 
     private static void option5() {
         List<Departments> departmentsList = departmentDAO.getAll();
-        System.out.printf("%-25s %-25s %-25s %-25s","STT", "Mã phòng ban", "Tên phòng ban", "Mảng phụ trách");
+        System.out.printf("%-25s %-25s %-25s %-25s","STT", "Mã phòng ban", "Tên phòng ban", "Thông tin phòng ban");
         System.out.println();
         for (int i = 0; i < departmentsList.size(); i++) {
             Departments d = departmentsList.get(i);
@@ -141,9 +141,9 @@ public class Application {
     }
 
     private static void option8(Scanner in){
-        System.out.print("\tNhập id phòng ban muốn xóa: ");
-        String department_id = in.nextLine();
-        departmentDAO.delete(department_id);
+            System.out.print("\tNhập id phòng ban muốn xóa: ");
+            String department_id = in.nextLine();
+            departmentDAO.delete(department_id);
     }
 
 
