@@ -146,6 +146,12 @@ public class Application {
             departmentDAO.delete(department_id);
     }
 
+    private static void option9(Scanner in){
+        System.out.print("\tNhập Id, Tên, Số điện thoại muốn tìm kiếm: ");
+        String fullname = in.nextLine();
+        System.out.println(employeeDAO.filterEmployee(fullname));
+    }
+
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -221,10 +227,9 @@ public class Application {
                     option8(in);
                     break;
                 case 9:
-
+                    option9(in);
                     break;
                 case 10:
-
                     break;
                 case 11:
 

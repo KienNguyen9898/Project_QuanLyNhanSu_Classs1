@@ -4,6 +4,7 @@ import connection.MyConnection;
 import model.Employees;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -81,6 +82,35 @@ public class EmployeeDAO {
         }
         return e;
     }
+
+    //tim theo ten
+    public List<Employees> filterEmployee(String keyword) {
+        Connection connection = null;
+        try {
+
+            List<Employees> e = new ArrayList<>();
+            connection = MyConnection.getConnection();
+            String sql = "SELECT * FROM employees WHERE `employee_id` LIKE ? OR `fullname` LIKE ? OR `phone` LIKE ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + keyword + "%");
+            preparedStatement.setString(2, "%" + keyword + "%");
+            preparedStatement.setString(3, "%" + keyword + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Employees employees = new Employees();
+                employees.setEmployee_id(rs.getString("employee_id"));
+                employees.setFullname(rs.getString("fullname"));
+                employees.setPhone(rs.getString("phone"));
+                e.add(employees);
+            }
+            return e;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+
 
     //them nv
     public void insert(Employees e) {
