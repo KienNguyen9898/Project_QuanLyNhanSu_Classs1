@@ -234,7 +234,7 @@ public class Application {
         }else {
             TTNCN = (TNTT * 0.35) - 9.85;
         }
-        if (luong > 0){
+        if (TTNCN > 0){
             System.out.println("\t-Thuế thu nhập cá nhân phải nộp = "+formatter.format(TTNCN)+" VNĐ");
         }else {
             System.out.println("\t-Thuế thu nhập cá nhân phải nộp = 0 VNĐ");
