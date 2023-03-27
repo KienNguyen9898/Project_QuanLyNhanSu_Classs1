@@ -100,7 +100,16 @@ public class EmployeeDAO {
                 Employees employees = new Employees();
                 employees.setEmployee_id(rs.getString("employee_id"));
                 employees.setFullname(rs.getString("fullname"));
+                employees.setGender(rs.getLong("gender"));
+                employees.setDate(rs.getString("date"));
+                employees.setHire_date(rs.getString("hire_date"));
+                employees.setEmail(rs.getString("email"));
                 employees.setPhone(rs.getString("phone"));
+                employees.setAddress(rs.getString("address"));
+                employees.setPosition(rs.getString("position"));
+                employees.setSalary(rs.getInt("salary"));
+                employees.setDepartment_id(rs.getString("department_id"));
+                employees.setManager_id(rs.getString("manager_id"));
                 e.add(employees);
             }
             return e;

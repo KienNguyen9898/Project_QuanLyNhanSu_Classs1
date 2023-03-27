@@ -23,13 +23,14 @@ public class Application {
         System.out.println("2. Thêm mới nhân viên");
         System.out.println("3. Cập nhật nhân viên");
         System.out.println("4. Xóa nhân viên");
-        System.out.println("5. Xem danh sách phòng ban");
-        System.out.println("6. Thêm mới phòng ban");
-        System.out.println("7. Cập nhật phòng ban");
-        System.out.println("8. Xóa phòng ban");
-        System.out.println("9. Tìm kiếm nhân viên");
-        System.out.println("10. Chuyển phòng ban cho nhân viên");
-        System.out.println("11. Tính thuế thu nhập cá nhân cho nhân viên");
+        System.out.println("5. Tìm kiếm nhân viên");
+        System.out.println("6. Xem danh sách phòng ban");
+        System.out.println("7. Thêm mới phòng ban");
+        System.out.println("8. Cập nhật phòng ban");
+        System.out.println("9. Xóa phòng ban");
+        System.out.println("10. Tìm kiếm phòng ban");
+        System.out.println("11. Chuyển phòng ban cho nhân viên");
+        System.out.println("12. Tính thuế thu nhập cá nhân cho nhân viên");
         System.out.println("0. Thoát");
     }
 
@@ -107,7 +108,13 @@ public class Application {
         employeeDAO.delete(employee_id);
     }
 
-    private static void option5() {
+    private static void option5(Scanner in){
+        System.out.print("\tNhập Id hoặc Tên hoặc Số điện thoại nhân viên muốn tìm kiếm: ");
+        String fullname = in.nextLine();
+        System.out.println(employeeDAO.filterEmployee(fullname));
+    }
+
+    private static void option6() {
         List<Departments> departmentsList = departmentDAO.getAll();
         System.out.printf("%-25s %-25s %-25s %-25s","STT", "Mã phòng ban", "Tên phòng ban", "Thông tin phòng ban");
         System.out.println();
@@ -117,7 +124,7 @@ public class Application {
         }
     }
 
-    private static void option6(Scanner in){
+    private static void option7(Scanner in){
         Departments d = new Departments();
         System.out.print("\tNhập id phòng ban: ");
         d.setDepartment_id(in.nextLine());
@@ -128,7 +135,7 @@ public class Application {
         departmentDAO.insert(d);
     }
 
-    private static void option7(Scanner in){
+    private static void option8(Scanner in){
         Departments d = new Departments();
         System.out.print("Nhập id phòng ban cần cập nhật: ");
         String department_id = in.nextLine();
@@ -139,19 +146,19 @@ public class Application {
         departmentDAO.update(d, department_id);
     }
 
-    private static void option8(Scanner in){
+    private static void option9(Scanner in){
             System.out.print("\tNhập id phòng ban muốn xóa: ");
             String department_id = in.nextLine();
             departmentDAO.delete(department_id);
     }
 
-    private static void option9(Scanner in){
-        System.out.print("\tNhập Id, Tên, Số điện thoại muốn tìm kiếm: ");
+    private static void option10(Scanner in){
+        System.out.print("\tNhập Id hoặc Tên phòng ban muốn tìm kiếm: ");
         String fullname = in.nextLine();
-        System.out.println(employeeDAO.filterEmployee(fullname));
+        System.out.println(departmentDAO.filterDepartment(fullname));
     }
 
-    private static void  option10(Scanner in){
+    private static void  option11(Scanner in){
         Employees e=new Employees();
         System.out.print("\tNhập mã nhân viên: ");
         String employee_id=in.nextLine();
@@ -179,7 +186,7 @@ public class Application {
         employeeDAO.update_employee_department(e,employee_id);
     }
 
-    public static void option11(Scanner in){
+    public static void option12(Scanner in){
         Employees e=new Employees();
         System.out.print("\tNhập mã nhân viên: ");
         String employee_id=in.nextLine();
@@ -306,10 +313,10 @@ public class Application {
                     option4(in);
                     break;
                 case 5:
-                    option5();
+                    option5(in);
                     break;
                 case 6:
-                    option6(in);
+                    option6();
                     break;
                 case 7:
                     option7(in);
@@ -328,11 +335,9 @@ public class Application {
 
                     break;
                 case 12:
-
+                    option12(in);
                     break;
-                case 13:
 
-                    break;
             }
 
         }

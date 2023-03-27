@@ -2,8 +2,10 @@ package dao;
 
 import connection.MyConnection;
 import model.Departments;
+import model.Employees;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -126,6 +128,30 @@ public class DepartmentDAO {
             conn.close();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+    public List<Departments> filterDepartment(String keyword) {
+        Connection connection = null;
+        try {
+
+            List<Departments> d = new ArrayList<>();
+            connection = MyConnection.getConnection();
+            String sql = "SELECT * FROM departments WHERE `department_id` LIKE ? OR `department_name` LIKE ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + keyword + "%");
+            preparedStatement.setString(2, "%" + keyword + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                Departments departments = new Departments();
+                departments.setDepartment_id(rs.getString("department_id"));
+                departments.setDepartment_name(rs.getString("department_name"));
+                departments.setDepartment_dese(rs.getString("department_dese"));
+                d.add(departments);
+            }
+            return d;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
         }
     }
 
