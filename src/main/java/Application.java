@@ -4,6 +4,7 @@ import model.Departments;
 import model.Employees;
 import service.AuthenService;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,7 +29,7 @@ public class Application {
         System.out.println("8. Xóa phòng ban");
         System.out.println("9. Tìm kiếm nhân viên");
         System.out.println("10. Chuyển phòng ban cho nhân viên");
-        System.out.println("13. Tính thuế thu nhập cá nhân cho nhân viên");
+        System.out.println("11. Tính thuế thu nhập cá nhân cho nhân viên");
         System.out.println("0. Thoát");
     }
 
@@ -178,6 +179,69 @@ public class Application {
         employeeDAO.update_employee_department(e,employee_id);
     }
 
+    public static void option11(Scanner in){
+        Employees e=new Employees();
+        System.out.print("\tNhập mã nhân viên: ");
+        String employee_id=in.nextLine();
+        while(employeeDAO.getById(employee_id)==null) {
+            System.out.print("\tMã nhân viên chưa tồn tại, vui lòng nhập lại mã NV: ");
+            employee_id =in.nextLine();
+        }
+        e.setEmployee_id(employee_id);
+        String leftAlignFormat = " %-12s  %-25s  %-2s %n";
+        System.out.format(" Mã nhân viên  Tên nhân viên              Lương%n");
+        Employees employee = employeeDAO.getById(employee_id);
+        System.out.format(leftAlignFormat, employee.getEmployee_id(),
+                employee.getFullname(),employeeDAO.getById(employee_id).getSalary());
+
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+
+        System.out.print("\tNhập số người phụ thuộc: ");
+        int soNguoiPT = in.nextInt();
+
+        //Mức đóng: BHXH (8%), BHYT (1.5%), BHTN (1%)
+        //Bảo hiểm bắt buộc = luongBh x 8% + luongBh x 1.5% + luongBh x 1%
+        double BHBB = (employee.getSalary() * 0.08) + (employee.getSalary() * 0.015) + (employee.getSalary() * 0.01);
+        System.out.println("\t-Bảo hiểm bắt buộc = "+formatter.format(BHBB)+" VNĐ");
+
+        // giảm trừ bản thân : 11000000
+        int GTBT = 11000000;
+        System.out.println("\t-Giảm trừ bản thân = "+formatter.format(GTBT)+" VNĐ");
+
+        //Giảm trừ người phụ thuộc = soNguoiPT x 4,400,000 = mặc định
+        int GTNPT = soNguoiPT * 4400000;
+        System.out.println("\t-Giảm trừ người phụ thuộc = "+formatter.format(GTNPT)+" VNĐ");
+
+        //Thu nhập tính thuế = lương - BHBB - GTBT - GTNPT;
+        double luong = employeeDAO.getById(employee_id).getSalary();
+        double TNTT = luong - BHBB - GTBT - GTNPT;
+        System.out.println("\t-Thu nhập tính thuế = "+formatter.format(TNTT)+" VNĐ");
+
+        // Thuế thu nhập cá nhân phải nộp
+        double TTNCN;
+        if (luong <= 5000000 ){
+            TTNCN = TNTT * 0.05;
+        }else if (luong <= 10000000){
+            TTNCN = (TNTT * 0.1) - 0.25;
+        }else if (luong <= 18000000){
+            TTNCN = (TNTT * 0.15) - 0.75;
+        }else if (luong <= 32000000){
+            TTNCN = (TNTT * 0.2) - 1.65;
+        }else if (luong <= 52000000){
+            TTNCN = (TNTT * 0.25) - 3.25;
+        }else if (luong <= 80000000){
+            TTNCN = (TNTT * 0.3) - 5.85;
+        }else {
+            TTNCN = (TNTT * 0.35) - 9.85;
+        }
+        if (luong > 0){
+            System.out.println("\t-Thuế thu nhập cá nhân phải nộp = "+formatter.format(TTNCN)+" VNĐ");
+        }else {
+            System.out.println("\t-Thuế thu nhập cá nhân phải nộp = 0 VNĐ");
+        }
+
+    }
+
 
 
     public static void main(String[] args) {
@@ -260,6 +324,7 @@ public class Application {
                     option10(in);
                     break;
                 case 11:
+                    option11(in);
 
                     break;
                 case 12:
