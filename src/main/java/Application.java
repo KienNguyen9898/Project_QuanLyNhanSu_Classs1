@@ -27,21 +27,19 @@ public class Application {
         System.out.println("7. Cập nhật phòng ban");
         System.out.println("8. Xóa phòng ban");
         System.out.println("9. Tìm kiếm nhân viên");
-        System.out.println("10. Thêm nhân viên vào phòng ban");
-        System.out.println("11. Xóa nhân viên khỏi phòng ban");
-        System.out.println("12. Chuyển phòng ban cho nhân viên");
+        System.out.println("10. Chuyển phòng ban cho nhân viên");
         System.out.println("13. Tính thuế thu nhập cá nhân cho nhân viên");
         System.out.println("0. Thoát");
     }
 
         private static void option1() {
             List<Employees> employeesList = employeeDAO.getAll();
-            System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s %-25s","STT", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban", "Mã người quản lý");
+            System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s","STT", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban");
             System.out.println();
             for (int i = 0; i < employeesList.size(); i++) {
                 Employees e = employeesList.get(i);
-                System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s %-25s\n",(i+1), e.getEmployee_id(), e.getFullname(),
-                        e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id(), e.getManager_id());
+                System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s\n",(i+1), e.getEmployee_id(), e.getFullname(),
+                        e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id());
             }
         }
 
@@ -152,6 +150,35 @@ public class Application {
         System.out.println(employeeDAO.filterEmployee(fullname));
     }
 
+    private static void  option10(Scanner in){
+        Employees e=new Employees();
+        System.out.print("\tNhập mã nhân viên: ");
+        String employee_id=in.nextLine();
+        while(employeeDAO.getById(employee_id)==null) {
+            System.out.print("\tMã nhân viên chưa tồn tại, vui lòng nhập lại mã NV: ");
+            employee_id =in.nextLine();
+        }
+        e.setEmployee_id(employee_id);
+
+        System.out.println("Chọn phòng ban: ");
+        List<Departments> departmentsList = departmentDAO.getAll();
+        System.out.printf("\t\t%-20s %-20s %-20s\n","STT", "Mã phòng ban","Tên phòng ban");
+        for (int i = 0; i < departmentsList.size(); i++) {
+            Departments d = departmentsList.get(i);
+            System.out.printf("\t\t%-20d %-20s %-20s \n",(i+1), d.getDepartment_id(), d.getDepartment_name());
+        }
+        System.out.println("\tNhập mã phòng ban: ");
+        String department_id=in.nextLine();
+        while (departmentDAO.getById(department_id)==null){
+            System.out.println("Mã phòng ban không hợp lệ, vui lòng nhập lại mã phòng ban: ");
+            department_id=in.nextLine();
+        }
+        e.setDepartment_id(department_id);
+
+        employeeDAO.update_employee_department(e,employee_id);
+    }
+
+
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -230,6 +257,7 @@ public class Application {
                     option9(in);
                     break;
                 case 10:
+                    option10(in);
                     break;
                 case 11:
 

@@ -182,4 +182,34 @@ public class EmployeeDAO {
             ex.printStackTrace();
         }
     }
-}
+
+    //thue
+    public void update_employee_department(Employees e, String employee_id) {
+        Employees tmp = getById(employee_id);
+        if(tmp == null){
+            System.out.println("Không tồn tại nhân viên có id = " + employee_id);
+            return;
+        }
+        final String sql = String.format("UPDATE employees SET `department_id`='%s' WHERE `employee_id`='%s' " ,
+                e.getDepartment_id(), employee_id
+        );
+
+        System.out.println(sql);
+        try{
+            Connection conn = MyConnection.getConnection();
+            Statement stmt = conn.createStatement();
+            long rs = stmt.executeUpdate(sql);
+
+            if (rs == 0) {
+                System.out.println("Cập nhật thất bại");
+            }
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    //thue
+
+
+    }
