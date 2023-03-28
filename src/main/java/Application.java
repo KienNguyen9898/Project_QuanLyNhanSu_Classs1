@@ -36,12 +36,12 @@ public class Application {
 
         private static void option1() {
             List<Employees> employeesList = employeeDAO.getAll();
-            System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s","STT", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban");
+            System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s %-25s","STT", "Mã nhân viên", "Họ tên", "Giới tính", "Số điện thoại", "Vị trí", "Mã phòng ban", "Mã người quản lý");
             System.out.println();
             for (int i = 0; i < employeesList.size(); i++) {
                 Employees e = employeesList.get(i);
-                System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s\n",(i+1), e.getEmployee_id(), e.getFullname(),
-                        e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id());
+                System.out.printf("%-10s %-25s %-25s %-25s %-25s %-25s %-25s %-25s\n",(i+1), e.getEmployee_id(), e.getFullname(),
+                        e.getGender(), e.getPhone(), e.getPosition(), e.getDepartment_id(),e .getManager_id());
             }
         }
 
@@ -206,7 +206,7 @@ public class Application {
                 employee.getFullname(),employeeDAO.getById(employee_id).getSalary());
 
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-
+        System.out.println();
         System.out.print("\tNhập số người phụ thuộc: ");
         int soNguoiPT = in.nextInt();
 
