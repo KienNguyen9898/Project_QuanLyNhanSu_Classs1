@@ -167,6 +167,10 @@ public class Application {
             employee_id =in.nextLine();
         }
         e.setEmployee_id(employee_id);
+        Employees employee = employeeDAO.getById(employee_id);
+        System.out.printf("\t%-20s %-20s %-20s\n", "Mã nhân viên", "Tên nhân viên", "Mã phòng ban");
+        System.out.printf("\t%-20s %-20s %-20s\n", employee.getEmployee_id(), employee.getFullname(), employee.getDepartment_id());
+
 
         System.out.println("Chọn phòng ban: ");
         List<Departments> departmentsList = departmentDAO.getAll();
